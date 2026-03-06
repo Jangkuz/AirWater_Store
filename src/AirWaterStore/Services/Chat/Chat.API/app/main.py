@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
 from app.core.database import mongodb_startup
+from app.messaging.rabbitmq import rabbitmq_startup, rabbitmq_shutdown
 from app.routes import routes
 
 # models.Base.metadata.create_all(bind=engine)
@@ -10,7 +11,9 @@ from app.routes import routes
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await mongodb_startup(app)
+    await rabbitmq_startup()
     yield
+    # await rabbitmq_shutdown()
 
 
 app = FastAPI(lifespan=lifespan)

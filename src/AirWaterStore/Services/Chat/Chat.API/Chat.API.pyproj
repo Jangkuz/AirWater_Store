@@ -28,13 +28,15 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\messaging\handler.py" />
+    <Compile Include="app\messaging\__init__.py" />
     <Compile Include="app\models\chatroom.py" />
     <Compile Include="app\models\message.py" />
     <Compile Include="app\models\user.py" />
-    <Compile Include="app\dependencies.py" />
     <Compile Include="app\routes\chatroom_endpoint.py" />
     <Compile Include="app\routes\routes.py" />
     <Compile Include="app\schema\chatroom.py" />
+    <Compile Include="app\schema\event.py" />
     <Compile Include="app\schema\message.py" />
     <Compile Include="app\schema\__init__.py" />
     <Compile Include="app\services\chatroom_service.py" />
@@ -42,9 +44,7 @@
     <Compile Include="app\core\database.py" />
     <Compile Include="app\main.py" />
     <Compile Include="app\core\__init__.py" />
-    <Compile Include="app\models\models.py" />
-    <Compile Include="app\rabbitmq.py" />
-    <Compile Include="app\schema\shemas.py" />
+    <Compile Include="app\messaging\rabbitmq.py" />
     <Compile Include="app\websocket_handlers.py" />
     <Compile Include="app\__init__.py" />
     <Compile Include="app\models\__init__.py" />
@@ -58,6 +58,7 @@
     <Folder Include="app\" />
     <Folder Include="app\core\" />
     <Folder Include="app\models\" />
+    <Folder Include="app\messaging\" />
     <Folder Include="app\schema\" />
     <Folder Include="app\services\" />
     <Folder Include="app\routes\" />

@@ -399,3 +399,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/src/AirWaterStore/Services/Chat/Chat.API/GEMINI.md
+/src/AirWaterStore/Services/Chat/Chat.API/Rules.md
+/src/AirWaterStore/AGENTS.md
+/src/AirWaterStore/Rules.md
