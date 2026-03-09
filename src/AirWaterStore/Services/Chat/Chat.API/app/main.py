@@ -5,12 +5,9 @@ from app.core.database import mongodb_startup
 from app.messaging.rabbitmq import rabbitmq_startup, rabbitmq_shutdown
 from app.routes import routes
 
-# models.Base.metadata.create_all(bind=engine)
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await mongodb_startup(app)
+    await mongodb_startup()
     await rabbitmq_startup()
     yield
     # await rabbitmq_shutdown()

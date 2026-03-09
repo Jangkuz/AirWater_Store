@@ -33,6 +33,7 @@
     <Compile Include="app\models\chatroom.py" />
     <Compile Include="app\models\message.py" />
     <Compile Include="app\models\user.py" />
+    <Compile Include="app\routes\message_endpoint.py" />
     <Compile Include="app\routes\chatroom_endpoint.py" />
     <Compile Include="app\routes\routes.py" />
     <Compile Include="app\schema\chatroom.py" />

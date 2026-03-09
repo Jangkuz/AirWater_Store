@@ -15,3 +15,4 @@ class UserCreatedEvent(IntegrationEvent):
     user_id: int = Field(alias='userId')
     user_name: str = Field(alias='userName')
     email: str
+    roles: list[str] = []

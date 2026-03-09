@@ -5,7 +5,8 @@ from typing import Annotated
 class User(Document):
     user_id: Annotated[int, Indexed(unique=True)]
     username: str
-    role: int
+    email: str
+    roles: list[str] = []
 
     class Settings:
         name = "users"

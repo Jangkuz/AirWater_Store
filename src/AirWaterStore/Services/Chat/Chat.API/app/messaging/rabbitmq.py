@@ -1,5 +1,6 @@
 import asyncio
 import aio_pika, json
+from loguru import logger
 from app.core.config import settings
 from .handler import handlers
 
@@ -8,16 +9,30 @@ _channel: aio_pika.Channel | None = None
 
 async def rabbitmq_startup() -> None:
     global _connection, _channel
-    _connection = await aio_pika.connect_robust(settings.MESSAGE_BROKER_HOST)
-    if _connection.connected:
-        print("Connected to RabbitMQ!")
 
-    await start_message_consumer()
+    retry_count = 0
+    max_retries = 5
+    retry_delay = 1
 
-# def get_channel() -> aio_pika.Channel:
-#     if not _channel:
-#         raise RuntimeError("RabbitMQ is not connected!")
-#     return _channel
+    while retry_count < max_retries:
+        try:
+            _connection = await aio_pika.connect_robust(settings.MESSAGE_BROKER_HOST)
+            if _connection.connected:
+                logger.info("Connected to RabbitMQ!")
+        
+            await start_message_consumer()
+            return
+        except Exception as e:
+            retry_count += 1
+            logger.error(f"Failed to connect to RabbitMQ: {e}")
+            logger.warning(
+                f"Failed to connect to RabbitMQ. "
+                f"Retrying in {retry_delay} seconds. ({retry_count}/{max_retries})")
+            
+            await asyncio.sleep(retry_delay)
+            retry_delay *= 2
+    
+    raise aio_pika.exceptions.AMQPConnectionError()
 
 async def rabbitmq_shutdown() -> None:
     if _connection:

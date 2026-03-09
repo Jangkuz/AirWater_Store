@@ -61,11 +61,13 @@ public static class DatabaseExtentions
         {
             await userManager.CreateAsync(user, PASSWORD);
             await userManager.AddToRoleAsync(user, AppConst.User);
+            IList<String> roles = await userManager.GetRolesAsync(user);
             var integrationEvent = new UserCreatedEvent
             {
                 UserId = user.Id,
                 UserName = user.UserName!,
-                Email = user.Email!
+                Email = user.Email!,
+                Roles = roles
             };
             await publishEndpoint.Publish(integrationEvent);
         }
@@ -78,7 +80,7 @@ public static class DatabaseExtentions
             Id = dto.UserId,
             UserName = dto.UserName,
             Email = dto.Email,
-            IsBan = false
+            IsBan = false,
         };
     }
 
