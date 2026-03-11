@@ -7,6 +7,7 @@ from .handler import handlers
 _connection: aio_pika.RobustConnection | None = None
 _channel: aio_pika.Channel | None = None
 
+
 async def rabbitmq_startup() -> None:
     global _connection, _channel
 
@@ -19,7 +20,7 @@ async def rabbitmq_startup() -> None:
             _connection = await aio_pika.connect_robust(settings.MESSAGE_BROKER_HOST)
             if _connection.connected:
                 logger.info("Connected to RabbitMQ!")
-        
+
             await start_message_consumer()
             return
         except Exception as e:
@@ -27,16 +28,19 @@ async def rabbitmq_startup() -> None:
             logger.error(f"Failed to connect to RabbitMQ: {e}")
             logger.warning(
                 f"Failed to connect to RabbitMQ. "
-                f"Retrying in {retry_delay} seconds. ({retry_count}/{max_retries})")
-            
+                f"Retrying in {retry_delay} seconds. ({retry_count}/{max_retries})"
+            )
+
             await asyncio.sleep(retry_delay)
             retry_delay *= 2
-    
+
     raise aio_pika.exceptions.AMQPConnectionError()
+
 
 async def rabbitmq_shutdown() -> None:
     if _connection:
         await _connection.close()
+
 
 async def start_message_consumer() -> None:
     async with _connection:
@@ -58,11 +62,6 @@ async def start_message_consumer() -> None:
 
         await queue.consume(on_message)
 
-        try:
-            await asyncio.Future()
-        finally:
-            await _connection.close()
-
 async def on_message(message: aio_pika.IncomingMessage):
     async with message.process():
         envelope: dict = json.loads(message.body.decode())
@@ -72,7 +71,7 @@ async def on_message(message: aio_pika.IncomingMessage):
         if not event_data:
             print("Invald MassTransit message!")
             return
-        
+
         event_type = get_event_name(envelope)
 
         handler = handlers.get(event_type)
@@ -82,13 +81,14 @@ async def on_message(message: aio_pika.IncomingMessage):
         if not handler:
             print(f"No event handler for {event_type}")
             return
-        
+
         await handler(event_data)
+
 
 def get_event_name(envelope: dict) -> str:
     types: list[str] = envelope.get("messageType", [])
 
     if not types:
         return ""
-    
+
     return types[0].split(":")[-1]
