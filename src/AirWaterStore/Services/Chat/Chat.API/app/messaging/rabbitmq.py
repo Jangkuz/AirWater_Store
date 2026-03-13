@@ -17,11 +17,13 @@ async def rabbitmq_startup() -> None:
 
     while retry_count < max_retries:
         try:
+            logger.info("Connecting to RabbitMQ...")
             _connection = await aio_pika.connect_robust(settings.MESSAGE_BROKER_HOST)
             if _connection.connected:
-                logger.info("Connected to RabbitMQ!")
+                await start_message_consumer()
 
-            await start_message_consumer()
+            logger.info("Connected to RabbitMQ!")
+
             return
         except Exception as e:
             retry_count += 1
@@ -62,6 +64,12 @@ async def start_message_consumer() -> None:
 
         await queue.consume(on_message)
 
+        try:
+            await asyncio.Future()
+        finally:
+            await _connection.close()
+
+
 async def on_message(message: aio_pika.IncomingMessage):
     async with message.process():
         envelope: dict = json.loads(message.body.decode())
@@ -69,17 +77,17 @@ async def on_message(message: aio_pika.IncomingMessage):
         event_data: dict = envelope.get("message")
 
         if not event_data:
-            print("Invald MassTransit message!")
+            logger.warning("Invald MassTransit message!")
             return
 
         event_type = get_event_name(envelope)
 
         handler = handlers.get(event_type)
 
-        print(f"Event handler directing {event_type}")
+        logger.log(f"Event handler directing {event_type}")
 
         if not handler:
-            print(f"No event handler for {event_type}")
+            logger.log(f"No event handler for {event_type}")
             return
 
         await handler(event_data)

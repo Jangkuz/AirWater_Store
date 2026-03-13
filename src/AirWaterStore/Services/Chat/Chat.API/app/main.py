@@ -4,24 +4,19 @@ from sqlalchemy.orm import Session
 from app.core.database import mongodb_startup
 from app.messaging.rabbitmq import rabbitmq_startup, rabbitmq_shutdown
 from app.routes import routes
+import asyncio
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await mongodb_startup()
-    await rabbitmq_startup()
+    asyncio.create_task(rabbitmq_startup())
     yield
     # await rabbitmq_shutdown()
 
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(routes.router)
-
-
-@app.get("/")
-def read_root():
-    return {"message": "Hello, FastAPI with Uvicorn!"}
-
 
 # @app.get("/chatrooms/{user_id}", response_model=list[shemas.ChatRoomOut])
 # def list_chatrooms(user_id: int, db: Session = Depends(get_db)):
