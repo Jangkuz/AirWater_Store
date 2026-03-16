@@ -46,6 +46,17 @@ services:
     volumes:
       - postgres_order:/var/opt/mssql
 
+  chatdb:
+    container_name: chatdb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    restart: always
+    ports:
+      - "7076:27017"
+    volumes:
+      - mongo_chat:/data/db
+
   distributedcache:
     container_name: distributedcache
     restart: always
@@ -181,3 +192,15 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  chat.api:
+    container_name: chat.api
+    environment:
+      - MONGODB_URL=mongodb://admin:password@chatdb:27017
+      - DATABASE_NAME=ChatDb
+      - MESSAGE_BROKER_HOST=amqp://guest:guest@ecommerce-mq:5672
+    depends_on:
+      - chatdb
+      - messagebroker
+    ports:
+      - "6066:8000"

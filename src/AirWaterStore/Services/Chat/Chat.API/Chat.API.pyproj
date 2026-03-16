@@ -28,6 +28,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\dependencies.py" />
     <Compile Include="app\messaging\handler.py" />
     <Compile Include="app\messaging\__init__.py" />
     <Compile Include="app\models\chatroom.py" />
@@ -43,7 +44,7 @@
     <Compile Include="app\services\chatroom_service.py" />
     <Compile Include="app\core\config.py" />
     <Compile Include="app\core\database.py" />
-    <Compile Include="app\main.py" />
+    <Compile Include="main.py" />
     <Compile Include="app\core\__init__.py" />
     <Compile Include="app\messaging\rabbitmq.py" />
     <Compile Include="app\websocket_handlers.py" />
@@ -53,6 +54,7 @@
     <Compile Include="app\services\__init__.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Dockerfile" />
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>

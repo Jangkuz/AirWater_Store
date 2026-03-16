@@ -8,6 +8,9 @@ services:
   airwaterstoredb:
     image: postgres:17
 
+  chatdb:
+    image: mongo:8.2.5
+
   distributedcache:
     image: redis
 
@@ -53,11 +56,18 @@ services:
       context: .
       dockerfile: Services/AirWaterStore/AirWaterStore.API/Dockerfile
 
+  chat.api:
+    image: ${DOCKER_REGISTRY-}chatapi
+    build:
+      context: .
+      dockerfile: Services/Chat/Chat.API/Dockerfile
+
 volumes:
   postgres_catalog:
   postgres_basket:
   postgres_airwaterstore:
   postgres_order:
+  mongo_chat:
 
 
 

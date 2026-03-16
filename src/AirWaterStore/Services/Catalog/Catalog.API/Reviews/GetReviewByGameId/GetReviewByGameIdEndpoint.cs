@@ -7,7 +7,7 @@ public class GetReviewByGameIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/reviews/{gameId}", async (int gameId, ISender sender) =>
+        app.MapGet("/games/{gameId}/reviews", async (int gameId, ISender sender) =>
         {
             var result = await sender.Send(new GetReviewByGameIdQuery(gameId));
 

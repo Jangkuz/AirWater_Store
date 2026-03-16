@@ -10,7 +10,8 @@ public class ChatRoom
 
     public virtual User Customer { get; set; } = null!;
 
-    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
+    //public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
     public virtual User? Staff { get; set; }
 }
+

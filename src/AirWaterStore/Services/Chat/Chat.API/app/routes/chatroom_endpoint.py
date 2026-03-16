@@ -4,26 +4,30 @@ from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException
 import starlette.status as http_status
 from app.models.chatroom import ChatRoom
-from app.schema.chatroom import ChatRoomResponse, ChatRoomCreateRequest, ChatRoomUpdateStaffRequest
+from app.schema.chatroom import (
+    ChatRoomResponse,
+    ChatRoomCreateRequest,
+    ChatRoomUpdateStaffRequest,
+)
 from app.dependencies import get_chatroom_service
 from app.services.chatroom_service import ChatRoomService
 
 
 router = APIRouter()
 
+
 # @router.get(
 #         "{user_id}"
 # )
 @router.get(
-    "/{userId}",
+    "/user/{userId}",
     status_code=http_status.HTTP_200_OK,
     response_description=" get user's chat rooms",
     name="chat_room: get_by_user",
     response_model=List[ChatRoomResponse],
 )
 async def get_chatrooms_by_user(
-    userId: int,
-    service: ChatRoomService = Depends(get_chatroom_service)
+    userId: int, service: ChatRoomService = Depends(get_chatroom_service)
 ):
     chatRooms = await service.get_chatrooms_by_user(userId)
     response = []
@@ -40,7 +44,7 @@ async def get_chatrooms_by_user(
 
 
 @router.get(
-    "/{chatRoomId}/details",
+    "/{chatRoomId}",
     status_code=http_status.HTTP_200_OK,
     response_description=" get chat room by id",
     name="chat_room: get_by_id",
@@ -67,18 +71,18 @@ async def get_chatroom_by_id(
 
 
 @router.post(
-    "/{customer_id}",
+    "",
     status_code=http_status.HTTP_201_CREATED,
     response_description="create chat room",
     name="chat_room: create",
     response_model=ChatRoomResponse,
 )
 async def create(
-    customer_id: int,
-    # request: ChatRoomCreateRequest,
+    # customer_id: int,
+    request: ChatRoomCreateRequest,
     service: ChatRoomService = Depends(get_chatroom_service),
 ):
-    chatroom = await service.get_or_create_chatroom(customer_id)
+    chatroom = await service.get_or_create_chatroom(request.customer_id)
     response = ChatRoomResponse(
         chat_room_id=str(chatroom.id),
         customer_id=chatroom.customer_id,
@@ -97,7 +101,7 @@ async def create(
 async def assign_staff(
     chat_room_id: PydanticObjectId,
     request: ChatRoomUpdateStaffRequest,
-    service: ChatRoomService = Depends(get_chatroom_service)
+    service: ChatRoomService = Depends(get_chatroom_service),
 ):
     chatroom = await service.get_chatroom_by_id(chat_room_id)
 

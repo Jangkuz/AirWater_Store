@@ -12,7 +12,7 @@ public class Message
 
     public DateTime? SentAt { get; set; } = DateTime.UtcNow;
 
-    public virtual ChatRoom ChatRoom { get; set; } = null!;
+    //public virtual ChatRoom ChatRoom { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
 }

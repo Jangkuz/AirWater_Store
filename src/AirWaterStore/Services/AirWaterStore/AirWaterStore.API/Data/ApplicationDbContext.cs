@@ -7,7 +7,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-    public DbSet<Message> Messages => Set<Message>();
+    //public DbSet<Message> Messages => Set<Message>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -33,43 +33,43 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
         });
 
         // ==== CHATROOM ====
-        builder.Entity<ChatRoom>(chat =>
-        {
-            chat.HasKey(c => c.ChatRoomId);
+        //builder.Entity<ChatRoom>(chat =>
+        //{
+        //    chat.HasKey(c => c.ChatRoomId);
 
-            chat.HasOne(c => c.Customer)
-                .WithMany(u => u.ChatRoomCustomers)
-                .HasForeignKey(c => c.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
+        //    chat.HasOne(c => c.Customer)
+        //        .WithMany(u => u.ChatRoomCustomers)
+        //        .HasForeignKey(c => c.CustomerId)
+        //        .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
 
-            chat.HasOne(c => c.Staff)
-                .WithMany(u => u.ChatRoomStaffs)
-                .HasForeignKey(c => c.StaffId)
-                .OnDelete(DeleteBehavior.SetNull); // Staff can be nullable
-        });
+        //    chat.HasOne(c => c.Staff)
+        //        .WithMany(u => u.ChatRoomStaffs)
+        //        .HasForeignKey(c => c.StaffId)
+        //        .OnDelete(DeleteBehavior.SetNull); // Staff can be nullable
+        //});
 
         // ==== MESSAGE ====
-        builder.Entity<Message>(msg =>
-        {
-            msg.HasKey(m => m.MessageId);
+        //builder.Entity<Message>(msg =>
+        //{
+        //    msg.HasKey(m => m.MessageId);
 
-            msg.Property(m => m.Content)
-                .IsRequired()
-                .HasMaxLength(1000);
+        //    msg.Property(m => m.Content)
+        //        .IsRequired()
+        //        .HasMaxLength(1000);
 
             //msg.Property(m => m.SentAt)
             //    .HasDefaultValueSql("GETDATE()");
 
-            msg.HasOne(m => m.ChatRoom)
-                .WithMany(c => c.Messages)
-                .HasForeignKey(m => m.ChatRoomId)
-                .OnDelete(DeleteBehavior.Cascade);
+        //    msg.HasOne(m => m.ChatRoom)
+        //        .WithMany(c => c.Messages)
+        //        .HasForeignKey(m => m.ChatRoomId)
+        //        .OnDelete(DeleteBehavior.Cascade);
 
-            msg.HasOne(m => m.User)
-                .WithMany(u => u.Messages)
-                .HasForeignKey(m => m.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
+        //    msg.HasOne(m => m.User)
+        //        .WithMany(u => u.Messages)
+        //        .HasForeignKey(m => m.UserId)
+        //        .OnDelete(DeleteBehavior.Restrict);
+        //});
     }
 
 }

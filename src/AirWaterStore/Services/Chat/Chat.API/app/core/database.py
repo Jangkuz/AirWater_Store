@@ -31,7 +31,7 @@ async def mongodb_startup() -> None:
         except Exception as e:
             retry_count += 1
             logger.warning(
-                f"Failed to connect to MongoDB. "
+                f"Failed to connect to MongoDB. ({settings.MONGODB_URL})"
                 f"Retrying in {retry_delay} seconds. ({retry_count}/{max_retries})")
             
             await asyncio.sleep(retry_delay)

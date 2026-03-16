@@ -1,80 +1,85 @@
+using AirWaterStore.Web.Models.Chat;
+
 namespace AirWaterStore.Web.Pages.Chat
 {
     public class IndexModel : PageModel
     {
-        //private readonly IChatRoomService _chatRoomService;
-        //private readonly IMessageService _messageService;
-        //private readonly IUserService _userService;
+        private readonly IChatRoomService _chatRoomService;
+        private readonly IAirWaterStoreService _airWaterStoreService;
 
-        //public IndexModel(IChatRoomService chatRoomService, IMessageService messageService, IUserService userService)
-        //{
-        //    _chatRoomService = chatRoomService;
-        //    _messageService = messageService;
-        //    _userService = userService;
-        //}
+        public IndexModel(
+            IChatRoomService chatRoomService,
+            IAirWaterStoreService airWaterStorerService
+        )
+        {
+            _chatRoomService = chatRoomService;
+            _airWaterStoreService = airWaterStorerService;
+        }
 
         public ChatRoom ChatRoom { get; set; } = default!;
         public List<Message> Messages { get; set; } = new List<Message>();
         public Dictionary<int, string> UserNames { get; set; } = new Dictionary<int, string>();
-        // public int CurrentUserId => HttpContext.Session.GetInt32(SessionParams.UserId) ?? 0;
 
         public async Task<IActionResult> OnGetAsync()
         {
-            //var userId = this.GetCurrentUserId();
-            //var userRole = this.GetCurrentUserRole();
+            var userId = this.GetCurrentUserId();
 
-            //if (!this.IsAuthenticated())
-            //{
-            //    return RedirectToPage("/Login");
-            //}
+            if (!this.IsAuthenticated())
+            {
+                return RedirectToPage(AppRouting.Login);
+            }
 
-            //// Only customers can access this page
-            //if (userRole != 1)
-            //{
-            //    return RedirectToPage("/Admin/Chat/Index");
-            //}
+            // Only customers can access this page
+            if (!this.IsCustomer())
+            {
+                return RedirectToPage(AppRouting.AdminChat);
+            }
 
-            //// Get or create chat room for customer
-            //ChatRoom = await _chatRoomService.GetOrCreateChatRoomAsync(userId);
+            // Get or create chat room for customer
+            var result = await _chatRoomService.GetOrCreateChatRoom(userId);
 
-            //// Get messages
-            //Messages = await _messageService.GetMessagesByChatRoomIdAsync(ChatRoom.ChatRoomId);
+            ChatRoom = result.ChatRoom;
 
-            //// Load usernames
-            //var userIds = Messages.Select(m => m.UserId).Distinct().ToList();
-            //userIds.Add(userId);
+            // Get messages
+            var messageResult = await _chatRoomService.GetMessagesByChatRoomId(ChatRoom.ChatRoomId);
+            Messages = messageResult.Messages.ToList();
 
-            //foreach (var id in userIds)
-            //{
-            //    var user = await _userService.GetByIdAsync(id);
-            //    UserNames[id] = user?.Username ?? "Unknown User";
-            //}
+            // Load usernames
+            var userIds = Messages.Select(m => m.UserId).Distinct().ToList();
+            userIds.Add(userId);
+
+            foreach (var id in userIds)
+            {
+                var user = await _airWaterStoreService.GetUserById(id);
+                UserNames[id] = user?.User.UserName ?? "Unknown User";
+            }
 
             return Page();
         }
 
-        //public async Task<IActionResult> OnPostSendMessageAsync(string messageContent)
-        //{
-        //    var userId = HttpContext.Session.GetInt32(SessionParams.UserId);
-        //    if (!userId.HasValue || string.IsNullOrWhiteSpace(messageContent))
-        //    {
-        //        return RedirectToPage();
-        //    }
+        public async Task<IActionResult> OnPostSendMessageAsync(string messageContent)
+        {
 
-        //    var chatRoom = await _chatRoomService.GetOrCreateChatRoomAsync(userId.Value);
+            var userId = this.GetCurrentUserId();
+            if (userId != 0 || string.IsNullOrWhiteSpace(messageContent))
+            {
+                return RedirectToPage();
+            }
 
-        //    var message = new Message
-        //    {
-        //        ChatRoomId = chatRoom.ChatRoomId,
-        //        UserId = userId.Value,
-        //        Content = messageContent.Trim(),
-        //        SentAt = DateTime.Now
-        //    };
+            var result = await _chatRoomService.GetOrCreateChatRoom(userId);
 
-        //    await _messageService.AddMessageAsync(message);
+            var message = new CreateMessageRequest
+            (
+                ChatRoomId: result.ChatRoom.ChatRoomId,
+                UserId: userId,
+                Content: messageContent.Trim(),
+                SentAt: DateTime.Now
+            );
 
-        //    return RedirectToPage();
-        //}
+            await _chatRoomService.PostMessage(message);
+
+            return RedirectToPage();
+        }
 
         public string GetUsername(int userId)
         {

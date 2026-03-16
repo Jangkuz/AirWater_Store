@@ -44,10 +44,6 @@ public partial class Game
     public decimal Price { get; set; }
 
     public int Quantity { get; set; }
-
-    //public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-
-    //public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 }
 
 //wrapper classes

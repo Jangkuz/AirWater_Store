@@ -13,16 +13,17 @@ async def rabbitmq_startup() -> None:
 
     retry_count = 0
     max_retries = 5
-    retry_delay = 1
+    retry_delay = 5
 
     while retry_count < max_retries:
         try:
             logger.info("Connecting to RabbitMQ...")
-            _connection = await aio_pika.connect_robust(settings.MESSAGE_BROKER_HOST)
+            _connection = await aio_pika.connect_robust(
+                f"{settings.MESSAGE_BROKER_HOST}?name={settings.APP_NAME}"
+            )
             if _connection.connected:
+                logger.info("Connected to RabbitMQ!")
                 await start_message_consumer()
-
-            logger.info("Connected to RabbitMQ!")
 
             return
         except Exception as e:

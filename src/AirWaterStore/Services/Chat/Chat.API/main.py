@@ -1,6 +1,5 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from sqlalchemy.orm import Session
 from app.core.database import mongodb_startup
 from app.messaging.rabbitmq import rabbitmq_startup, rabbitmq_shutdown
 from app.routes import routes
@@ -10,9 +9,16 @@ import asyncio
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await mongodb_startup()
-    asyncio.create_task(rabbitmq_startup())
+    task = asyncio.create_task(rabbitmq_startup())
+
     yield
-    # await rabbitmq_shutdown()
+
+    await rabbitmq_shutdown()
+    try:
+        task.cancel()
+        await task
+    except asyncio.CancelledError:
+        pass
 
 
 app = FastAPI(lifespan=lifespan)

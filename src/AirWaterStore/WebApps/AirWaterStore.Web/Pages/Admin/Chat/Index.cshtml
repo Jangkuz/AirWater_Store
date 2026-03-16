@@ -18,7 +18,7 @@
                 @foreach (var room in Model.ChatRooms)
                 {
                     <a asp-page="/Admin/Chat/Room" asp-route-id="@room.ChatRoomId"
-                        class="list-group-item list-group-item-action @(Model.SelectedRoomId == room.ChatRoomId ? "active" : "")">
+                        class="list-group-item list-group-item-action @(Model.SelectedRoomId.Equals(room.ChatRoomId) ? "active" : "")">
                         <div class="d-flex w-100 justify-content-between">
                             <h6 class="mb-1">@Model.GetCustomerName(room.CustomerId)</h6>
                             @if (room.StaffId == null)
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="col-md-8">
-        @if (Model.SelectedRoomId.HasValue)
+        @if (string.IsNullOrEmpty(Model.SelectedRoomId))
         {
             <div class="alert alert-info">
                 <h5>Select a chat room to view conversation</h5>

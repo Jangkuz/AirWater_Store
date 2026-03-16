@@ -23,7 +23,7 @@ public interface ICatalogService
 
     //==========================================
 
-    [Get("/catalog-service/reviews/{gameId}")]
+    [Get("/catalog-service/games/{gameId}/reviews")]
     Task<GetReviewsByGameIdResponse> GetReviewsByGameId(int gameId);
 
     [Post("/catalog-service/reviews")]

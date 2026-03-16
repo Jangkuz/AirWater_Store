@@ -9,6 +9,7 @@ public static class AppRouting
     public static string Cart = "/Cart";
     public static string GameDetail = "/Games/Details";
     public static string AdminDashboard = "/Admin/Dashboard";
+    public static string AdminChat = "/Admin/Chat/Index";
 
     public static string Error = "/Error";
 }
