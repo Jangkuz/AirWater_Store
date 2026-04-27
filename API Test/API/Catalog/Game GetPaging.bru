@@ -1,0 +1,26 @@
+meta {
+  name: Game GetPaging
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{catalog_url}}/games?PageIndex=1&PageSize=5
+  body: none
+  auth: inherit
+}
+
+params:query {
+  PageIndex: 1
+  PageSize: 5
+}
+
+assert {
+  res.status: eq 200
+  res.body.games.length: gt 0
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

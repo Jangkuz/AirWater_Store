@@ -1,0 +1,16 @@
+meta {
+  name: Basket GetUserById
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{basket_url}}/basket/{{userSeedId}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

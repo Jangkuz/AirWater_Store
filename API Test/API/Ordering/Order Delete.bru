@@ -1,0 +1,38 @@
+meta {
+  name: Order Delete
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{ordering_url}}/orders/{{orderCreatedId}}
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+      "Order": {
+          "id": "{{orderCreatedId}}",
+          // "customerId": 100,
+          "orderName": "ORD_1",
+          "status": 2
+          // "orderItems": [
+          //     {
+          //         "gameId": 413150,
+          //         "quantity": 2,
+          //         "price": 500000
+          //     }
+          // ]
+      }
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

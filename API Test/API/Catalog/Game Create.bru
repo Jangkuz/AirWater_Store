@@ -1,0 +1,43 @@
+meta {
+  name: Game Create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{catalog_url}}/games
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "Title": "Epic Battle Fantasy 5",
+      "ThumbnailUrl": "string",
+      "Description": "string",
+      "Genre": ["string1", "string2"],
+      "Developer": "string",
+      "Publisher": "string",
+      "ReleaseDate": "2025-06-23",
+      "Price": 120000,
+      "Quantity": 2
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.id: isNumber
+}
+
+script:post-response {
+  const body = res.getBody();
+  
+  if(body){
+    bru.setVar("gameCreatedId", body.id);
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

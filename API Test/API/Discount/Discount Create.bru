@@ -1,0 +1,23 @@
+meta {
+  name: Discount Create
+  type: grpc
+  seq: 2
+}
+
+grpc {
+  url: {{discount_url}}
+  method: /discount.DiscountProtoService/CreateDiscount
+  body: grpc
+  protoPath: ../src/AirWaterStore/Services/Discount/Discount.gRPC/Protos/discount.proto
+  auth: none
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "coupon": {}
+    }
+  '''
+}

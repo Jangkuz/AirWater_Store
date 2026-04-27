@@ -1,0 +1,40 @@
+meta {
+  name: Review Create
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{catalog_url}}/reviews
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "UserId": 1,
+      "UserName": "Billy",
+      "GameId": {{gameSeedId}},
+      "Rating": 5,
+      "Comment": "I like it, put 30 hours into it!",
+      "ReviewDate": "2026-12-12"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.id: isNumber
+}
+
+script:post-response {
+  const body = res.getBody()
+  
+  if(body){
+    bru.setVar("reviewCreatedId",body.id)
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

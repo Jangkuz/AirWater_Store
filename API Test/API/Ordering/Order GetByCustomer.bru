@@ -1,0 +1,20 @@
+meta {
+  name: Order GetByCustomer
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{ordering_url}}/orders/customer/{{userSeedId}}
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,21 @@
+meta {
+  name: Game GetCount
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{catalog_url}}/games/count
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.count: gt 0
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,23 @@
+meta {
+  name: Discount GetByGameId
+  type: grpc
+  seq: 1
+}
+
+grpc {
+  url: {{discount_url}}
+  method: /discount.DiscountProtoService/GetDiscount
+  body: grpc
+  protoPath: ../src/AirWaterStore/Services/Discount/Discount.gRPC/Protos/discount.proto
+  auth: none
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "gameId": {{gameSeedId}}
+    }
+  '''
+}

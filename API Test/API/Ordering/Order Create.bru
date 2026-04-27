@@ -1,0 +1,45 @@
+meta {
+  name: Order Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{ordering_url}}/orders
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "Order": {
+          "customerId": {{userSeedId}},
+          "orderName": "ORD_1",
+          "status": 1,
+          "orderItems": [
+              {
+                  "gameId": {{gameSeedId}},
+                  "quantity": 2,
+                  "price": 500
+              }
+          ]
+      }
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  const body = res.getBody();
+  
+  if(body){
+    bru.setVar("orderCreatedId", body.id)
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

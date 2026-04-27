@@ -1,0 +1,19 @@
+{
+  "version": "1",
+  "name": "AirWaterStore API Test",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.008150100708007812,
+  "filesCount": 31,
+  "protobuf": {
+    "protoFiles": [
+      {
+        "path": "../src/AirWaterStore/Services/Discount/Discount.gRPC/Protos/discount.proto",
+        "type": "file"
+      }
+    ]
+  }
+}

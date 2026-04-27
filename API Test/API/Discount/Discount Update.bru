@@ -1,0 +1,27 @@
+meta {
+  name: Discount Update
+  type: grpc
+  seq: 3
+}
+
+grpc {
+  url: {{discount_url}}
+  method: /discount.DiscountProtoService/UpdateDiscount
+  body: grpc
+  protoPath: ../src/AirWaterStore/Services/Discount/Discount.gRPC/Protos/discount.proto
+  auth: none
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "coupon": {
+        "gameId": 413150,
+        "description": "Stardew Valley discount",
+        "amount": 200
+      }
+    }
+  '''
+}

@@ -1,0 +1,29 @@
+meta {
+  name: Game Delete
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{catalog_url}}/games/{{gameCreatedId}}
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  : eq
+}
+
+script:post-response {
+  const body = res.getBody();
+  
+  if(body){
+    bru.setVar("gameCreatedId", body.id);
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

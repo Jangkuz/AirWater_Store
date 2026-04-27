@@ -17,6 +17,13 @@ public class DeleteGameHandler
 {
     public async Task<DeleteGameResult> Handle(DeleteGameCommand command, CancellationToken cancellationToken)
     {
+        //TODO: delete => publish event
+        var product = await session.LoadAsync<Game>(command.Id, cancellationToken);
+        if(product is null)
+        {
+            throw new GameNotFoundException(command.Id);
+        }
+
         session.Delete<Game>(command.Id);
         await session.SaveChangesAsync(cancellationToken);
 

@@ -1,6 +1,5 @@
 ﻿namespace Catalog.API.Games.DeleteGame;
 
-//public record DeleteGameRequest(int Id);
 public record DeleteGameResponse(bool IsSuccess);
 
 public class DeleteGameEndPoint : ICarterModule
@@ -19,6 +18,7 @@ public class DeleteGameEndPoint : ICarterModule
         .Produces<DeleteGameResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status404NotFound)
+        .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Delete Game")
         .WithDescription("Delete Game");
     }

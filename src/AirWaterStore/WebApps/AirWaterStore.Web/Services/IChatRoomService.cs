@@ -7,9 +7,9 @@ public interface IChatRoomService
     [Get("/chatroom-service/chatrooms/user/{userId}")]
     Task<GetStaffChatRoomsResponse> GetChatRoomsByStaffId(int userId);
     [Post("/chatroom-service/chatrooms")]
-    Task<GetChatRoomsResponse> GetOrCreateChatRoom();
+    Task<GetChatRoomsResponse> GetOrCreateChatRoom(CreateChatRoomRequest request);
     [Post("/chatroom-service/chatrooms/{chatRoomId}/assign")]
-    Task<GetChatRoomsResponse> AssignStaffToChatRoom(AssignStaffToChatRoomRequest request);
+    Task<GetChatRoomsResponse> AssignStaffToChatRoom(string chatRoomId, AssignStaffToChatRoomRequest request);
 
     //=======================================
     [Get("/chatroom-service/chatrooms/{chatRoomId}/messages")]

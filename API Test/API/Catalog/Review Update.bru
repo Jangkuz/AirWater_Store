@@ -1,0 +1,29 @@
+meta {
+  name: Review Update
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{catalog_url}}/reviews
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "Id": {{reviewCreatedId}},
+      "Rating": 5,
+      "Comment": "A must play, I put 40 hours into it!"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.isSuccess: isTruthy
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

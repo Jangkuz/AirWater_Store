@@ -18,7 +18,7 @@ Cons (tobe fixed in the future?):
   - Basket's quantity validation is FE based
   - Don't have menu for adding discount, only API
 - Update game haven't been sync via Rabbit MQ
-- The project don't have a source of truth. Thus race condition and data lose. Have not found a solution
+- The project don't have a single source of truth. Thus lead to race condition and data lose. Have not found a solution
   - After done `docker compose up -d` for the first time. Delete ordering's and airwaterstore's db due to race condition when seeding.
     - Then rerun air water store docker compose
   - If faced with race condition when seeding database:
@@ -36,7 +36,7 @@ Cons (tobe fixed in the future?):
 | Basket        | <http://localhost:5003> <br/> <https://localhost:5053> | <http://localhost:6003> <br/> <https://localhost:6063> |
 | Discount      | <http://localhost:5004> <br/> <https://localhost:5054> | <http://localhost:6004> <br/> <https://localhost:6064> |
 | Ordering      | <http://localhost:5005> <br/> <https://localhost:5055> | <http://localhost:6005> <br/> <https://localhost:6065> |
-| Chat          | <http://localhost:5006> <br/> <https://localhost:5056> | <http://localhost:6006> <br/> <https://localhost:6066> |
+| Chat          | <https://localhost:5056> | <https://localhost:6066> |
 
 ## Databases
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36203.30
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11605.240 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -46,10 +46,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{CC74B464-5D0E-4070-89C6-10E17D2D8136}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirWaterStore.Web", "WebApps\AirWaterStore.Web\AirWaterStore.Web.csproj", "{957249FB-37D2-812D-C7F8-3017F5832C91}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chat", "Chat", "{EBC371B8-5F09-4E97-BF2E-0A9CF92BDD52}"
-EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Chat.API", "Services\Chat\Chat.API\Chat.API.pyproj", "{060A9E5A-3D24-4C7C-A563-70C459E739F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,10 +105,6 @@ Global
 		{957249FB-37D2-812D-C7F8-3017F5832C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{957249FB-37D2-812D-C7F8-3017F5832C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{957249FB-37D2-812D-C7F8-3017F5832C91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{060A9E5A-3D24-4C7C-A563-70C459E739F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{060A9E5A-3D24-4C7C-A563-70C459E739F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{060A9E5A-3D24-4C7C-A563-70C459E739F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{060A9E5A-3D24-4C7C-A563-70C459E739F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,8 +127,6 @@ Global
 		{CCE2E542-DD01-4479-9FAA-E7E47253A741} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{3C34B4B4-1916-4E82-BDC3-C1A4EDF65245} = {CCE2E542-DD01-4479-9FAA-E7E47253A741}
 		{957249FB-37D2-812D-C7F8-3017F5832C91} = {CC74B464-5D0E-4070-89C6-10E17D2D8136}
-		{EBC371B8-5F09-4E97-BF2E-0A9CF92BDD52} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{060A9E5A-3D24-4C7C-A563-70C459E739F7} = {EBC371B8-5F09-4E97-BF2E-0A9CF92BDD52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C11E276B-2224-4BC9-82D7-764EA47EF08E}

@@ -74,7 +74,9 @@ public class RoomModel : PageModel
         // If chat is unassigned, assign it to current staff
         if (!chatRoom.StaffId.HasValue)
         {
-            await _chatRoomService.AssignStaffToChatRoom(new AssignStaffToChatRoomRequest(
+            await _chatRoomService.AssignStaffToChatRoom(
+                chatRoomId,
+                new AssignStaffToChatRoomRequest(
                 ChatRoomId: chatRoomId,
                 StaffId: this.GetCurrentUserId()
                 ));

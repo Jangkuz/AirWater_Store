@@ -16,6 +16,13 @@ public class DeleteReviewHandler
 {
     public async Task<DeleteReviewResult> Handle(DeleteReviewCommand command, CancellationToken cancellationToken)
     {
+        var review = await session.LoadAsync<Review>(command.Id, cancellationToken);
+
+        if(review is null)
+        {
+            throw new ReviewNotFoundException(command.Id);
+        }
+
         session.Delete<Review>(command.Id);
         await session.SaveChangesAsync(cancellationToken);
 

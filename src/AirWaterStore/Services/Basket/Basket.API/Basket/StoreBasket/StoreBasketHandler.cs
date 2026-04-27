@@ -31,6 +31,7 @@ public class StoreBasketHandler
 private async Task DeductDiscount(ShoppingCart cart, CancellationToken cancellationToken)
 {
     // Communicate with Discount.Grpc and calculate lastest prices of products into sc
+    // TODO: Add a way to create discount
     foreach (var item in cart.Items)
     {
         var coupon = await discountProto.GetDiscountAsync(new GetDiscountRequest { GameId = item.GameId }, cancellationToken: cancellationToken);

@@ -28,11 +28,11 @@ public class CatalogInitialData  : IInitialData
         //    await session.SaveChangesAsync();
         //}
 
-        if (!await session.Query<Review>().AnyAsync())
-        {
-            session.Store<Review>(await GetPreconfigureReviewAsync());
-            await session.SaveChangesAsync();
-        }
+        //if (!await session.Query<Review>().AnyAsync())
+        //{
+        //    session.Store<Review>(await GetPreconfigureReviewAsync());
+        //    await session.SaveChangesAsync();
+        //}
     }
 
     public static async Task<IEnumerable<Game>> GetPreconfigureGameAsync()
@@ -45,7 +45,7 @@ public class CatalogInitialData  : IInitialData
             .ToList();
     }
 
-    private static async Task<IEnumerable<Review>> GetPreconfigureReviewAsync()
+    public static async Task<IEnumerable<Review>> GetPreconfigureReviewAsync()
     {
         var reviewJsonList = await ReadReviewData.ReadMockDataAsync();
 

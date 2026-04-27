@@ -8,6 +8,7 @@ from app.schema.chatroom import (
     ChatRoomResponse,
     ChatRoomCreateRequest,
     ChatRoomUpdateStaffRequest,
+    ChatRoomEnvelope,
 )
 from app.dependencies import get_chatroom_service
 from app.services.chatroom_service import ChatRoomService
@@ -88,7 +89,7 @@ async def create(
         customer_id=chatroom.customer_id,
         staff_id=chatroom.staff_id,
     )
-    return response
+    return ChatRoomEnvelope(chat_room=response)
 
 
 @router.post(

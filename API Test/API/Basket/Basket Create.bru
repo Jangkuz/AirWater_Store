@@ -1,0 +1,43 @@
+meta {
+  name: Basket Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{basket_url}}/basket
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "ShoppingCart": {
+      "UserId": {{userSeedId}},
+      "Items": [
+        {
+          "GameId": "413150",
+          "Quantity": 2,
+          "GameTitle": "Stardew Valley",
+          "Price": 149000
+        },
+        {
+          "GameId": "105600",
+          "Quantity": 3,
+          "GameTitle": "Terraria",
+          "Price": 149000
+        }
+      ]
+    }
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.userId: eq {{userSeedId}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

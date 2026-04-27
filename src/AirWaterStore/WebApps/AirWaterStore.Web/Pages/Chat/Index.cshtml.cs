@@ -35,8 +35,10 @@ namespace AirWaterStore.Web.Pages.Chat
                 return RedirectToPage(AppRouting.AdminChat);
             }
 
+            var createChatroomReq = new CreateChatRoomRequest(userId);
+
             // Get or create chat room for customer
-            var result = await _chatRoomService.GetOrCreateChatRoom(userId);
+            var result = await _chatRoomService.GetOrCreateChatRoom(createChatroomReq);
 
             ChatRoom = result.ChatRoom;
 
@@ -66,7 +68,9 @@ namespace AirWaterStore.Web.Pages.Chat
                 return RedirectToPage();
             }
 
-            var result = await _chatRoomService.GetOrCreateChatRoom(userId);
+            var createChatRoomReq = new CreateChatRoomRequest(userId);
+
+            var result = await _chatRoomService.GetOrCreateChatRoom(createChatRoomReq);
 
             var message = new CreateMessageRequest
             (

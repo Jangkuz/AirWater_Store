@@ -1,0 +1,21 @@
+meta {
+  name: Review GetByGameId
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{catalog_url}}/games/{{gameSeedId}}/reviews
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.reviews.length: gt 0
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

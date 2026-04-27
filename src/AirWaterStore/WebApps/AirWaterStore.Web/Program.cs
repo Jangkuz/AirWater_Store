@@ -41,6 +41,11 @@ namespace AirWaterStore.Web
                 {
                     c.BaseAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
                 });
+            builder.Services.AddRefitClient<IChatRoomService>()
+            .ConfigureHttpClient(c =>
+            {
+                c.BaseAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
+            });
 
 
 

@@ -1,0 +1,38 @@
+meta {
+  name: Order HealthCheck
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{ordering_url}}/health
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+      "Order": {
+          "id": "{{orderCreatedId}}",
+          // "customerId": 100,
+          "orderName": "ORD_1",
+          "status": 2
+          // "orderItems": [
+          //     {
+          //         "gameId": 413150,
+          //         "quantity": 2,
+          //         "price": 500000
+          //     }
+          // ]
+      }
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

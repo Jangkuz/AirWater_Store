@@ -1,0 +1,26 @@
+meta {
+  name: Order Get
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{ordering_url}}/orders?pageIndex=1&pageSize=20
+  body: none
+  auth: inherit
+}
+
+params:query {
+  pageIndex: 1
+  pageSize: 20
+}
+
+assert {
+  res.status: eq 200
+  res.body.orders: isDefined
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

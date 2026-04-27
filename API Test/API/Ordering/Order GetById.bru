@@ -1,0 +1,20 @@
+meta {
+  name: Order GetById
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{ordering_url}}/orders/{{orderCreatedId}}
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
