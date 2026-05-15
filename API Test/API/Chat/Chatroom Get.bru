@@ -1,0 +1,66 @@
+meta {
+  name: Chatroom Get
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{chat_url}}/chatrooms/{{chatCreatedId}}
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "customer_id": {{userSeedId}}
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+example {
+  name: example
+  
+  request: {
+    url: {{chat_url}}/chatrooms/{{chatCreatedId}}
+    method: GET
+    mode: json
+    body:json: {
+      {
+        "customer_id": {{userSeedId}}
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      date: Fri, 15 May 2026 10:20:34 GMT
+      server: uvicorn
+      content-length: 73
+      content-type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "chatRoomId": "6a06ee2c9488fcc6e405d34b",
+          "customerId": 100,
+          "staffId": null
+        }
+      '''
+    }
+  }
+}

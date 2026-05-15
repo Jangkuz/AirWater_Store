@@ -11,7 +11,7 @@ Goals:
 
 ## _Note_
 
-Cons (tobe fixed in the future?):
+### Cons (tobe fixed in the future?):
 
 - Business rule is not tight(for learning purposes)
   - If game's price is updated, the game(s) price in cart will not updated
@@ -25,6 +25,9 @@ Cons (tobe fixed in the future?):
     - Keep the table schema
     - Delete the db record
     - Rerun docker compose
+
+### TODOs:
+- Add admin seed account
 
 ## Port
 

@@ -89,8 +89,8 @@ services:
       - "6000:8080"
       - "6060:8081"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA:-~/.config}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA:-~/.config}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   airwaterstore.api:
     container_name: airwaterstore.api
@@ -110,8 +110,8 @@ services:
       - "6001:8080"
       - "6061:8081"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      # - ${APPDATA:-~/.config}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA:-~/.config}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
 
   catalog.api:
     container_name: catalog.api
@@ -131,8 +131,8 @@ services:
       - "6002:8080"
       - "6062:8081"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA:-~/.config}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA:-~/.config}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   basket.api:
     container_name: basket.api
@@ -155,8 +155,8 @@ services:
       - "6003:8080"
       - "6063:8081"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA:-~/.config}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA:-~/.config}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   discount.grpc:
     container_name: discount.grpc
@@ -169,8 +169,8 @@ services:
       - "6004:8080"
       - "6064:8081"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA:-~/.config}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA:-~/.config}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   ordering.api:
     container_name: ordering.api
@@ -190,8 +190,8 @@ services:
       - "6005:8080"
       - "6065:8081"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA:-~/.config}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA:-~/.config}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   chat.api:
     container_name: chat.api

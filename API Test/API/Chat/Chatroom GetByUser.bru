@@ -1,12 +1,12 @@
 meta {
-  name: Chatroom Create
+  name: Chatroom GetByUser
   type: http
-  seq: 1
+  seq: 3
 }
 
-post {
-  url: {{chat_url}}/chatrooms
-  body: json
+get {
+  url: {{chat_url}}/chatrooms/user/{{userSeedId}}
+  body: none
   auth: inherit
 }
 
@@ -17,18 +17,7 @@ body:json {
 }
 
 assert {
-  res.status: eq 201
-}
-
-script:post-response {
-  const body = res.getBody();
-  
-  if(body){
-    bru.setVar("chatCreatedId", body.chatRoom.chatRoomId)
-    
-    
-    
-  }
+  res.status: eq 200
 }
 
 settings {
@@ -40,8 +29,8 @@ example {
   name: example
   
   request: {
-    url: {{chat_url}}/chatrooms
-    method: POST
+    url: {{chat_url}}/chatrooms/user/{{userSeedId}}
+    method: GET
     mode: json
     body:json: {
       {
@@ -52,27 +41,27 @@ example {
   
   response: {
     headers: {
-      date: Fri, 15 May 2026 10:08:51 GMT
+      date: Fri, 15 May 2026 10:21:34 GMT
       server: uvicorn
-      content-length: 86
+      content-length: 75
       content-type: application/json
     }
   
     status: {
-      code: 201
-      text: Created
+      code: 200
+      text: OK
     }
   
     body: {
       type: json
       content: '''
-        {
-          "chatRoom": {
+        [
+          {
             "chatRoomId": "6a06ee2c9488fcc6e405d34b",
             "customerId": 100,
             "staffId": null
           }
-        }
+        ]
       '''
     }
   }

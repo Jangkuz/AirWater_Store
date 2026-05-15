@@ -7,7 +7,7 @@ public class CatalogInitialData  : IInitialData
 {
     public async Task Populate(IDocumentStore store, CancellationToken cancellation)
     {
-        using var session = store.LightweightSession();
+        await using var session = store.LightweightSession();
         //if (!await session.Query<Game>().AnyAsync())
         //{
         //    var games = await GetPreconfigureGameAsync();

@@ -3,7 +3,7 @@
 namespace AirWaterStore.API.Chat;
 
 public class ChatHub (
-    ISender sender,
+    // ISender sender,
     IHttpContextAccessor httpContextAccessor
     ) : Hub
 {

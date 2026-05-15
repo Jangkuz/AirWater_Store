@@ -76,7 +76,7 @@ async def get_chatroom_by_id(
     status_code=http_status.HTTP_201_CREATED,
     response_description="create chat room",
     name="chat_room: create",
-    response_model=ChatRoomResponse,
+    response_model=ChatRoomEnvelope,
 )
 async def create(
     # customer_id: int,
