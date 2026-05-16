@@ -21,11 +21,11 @@ internal class LoginHandler(
     {
         var user = await userManager.FindByEmailAsync(query.Email);
         if (user is null)
-            throw new BadRequestException("Invalid email or password.");
+            throw new BadRequestException("Invalid email.");
 
         var passwordValid = await userManager.CheckPasswordAsync(user, query.Password);
         if (!passwordValid)
-            throw new BadRequestException("Invalid email or password.");
+            throw new BadRequestException("Invalid password.");
 
         var roles = await userManager.GetRolesAsync(user);
 

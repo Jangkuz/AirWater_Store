@@ -1,0 +1,54 @@
+meta {
+  name: User GetTotalCount
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{airwaterstore_url}}/users/count
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.userCount: isNumber
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+example {
+  name: example
+  
+  request: {
+    url: {{airwaterstore_url}}/users/count
+    method: GET
+    mode: none
+  }
+  
+  response: {
+    headers: {
+      content-type: application/json; charset=utf-8
+      date: Sat, 16 May 2026 07:42:10 GMT
+      server: Kestrel
+      transfer-encoding: chunked
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "userCount": 173
+        }
+      '''
+    }
+  }
+}

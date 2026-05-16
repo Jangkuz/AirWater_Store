@@ -1,0 +1,76 @@
+meta {
+  name: User Login
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{airwaterstore_url}}/users/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "Email": "user@gmail.com",
+      "Password": "123456As!"
+  }
+  
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  const body = res.getBody();
+  
+  if(body){
+    bru.setVar("token", body.token)
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+example {
+  name: example
+  
+  request: {
+    url: {{airwaterstore_url}}/users/login
+    method: POST
+    mode: json
+    body:json: {
+      {
+          "Email": "user@gmail.com",
+          "Password": "123456As!"
+      }
+      
+    }
+  }
+  
+  response: {
+    headers: {
+      content-type: application/json; charset=utf-8
+      date: Sat, 16 May 2026 07:37:41 GMT
+      server: Kestrel
+      transfer-encoding: chunked
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxIiwiUm9sZSI6IlVzZXIiLCJVc2VyTmFtZSI6IlVzZXIiLCJJc0JhbiI6IkZhbHNlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImV4cCI6MTc3ODkyMDY2MiwiaXNzIjoiQXV0aFNlcnZpY2UiLCJhdWQiOiJBbGxDbGllbnRzIn0.kl1tXMxbkp7SCeuTME08hNrP6HqbH7NSRLjeyWJPFG0"
+        }
+      '''
+    }
+  }
+}

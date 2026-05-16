@@ -1,0 +1,161 @@
+meta {
+  name: User GetPaging
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{airwaterstore_url}}/users?ExceptUserId=2&PageIndex=1&PageSize=10
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ExceptUserId: 2
+  PageIndex: 1
+  PageSize: 10
+}
+
+assert {
+  res.status: eq 200
+  res.body.users.count: gt 0
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+example {
+  name: example
+  
+  request: {
+    url: {{airwaterstore_url}}/users?ExceptUserId=2&PageIndex=1&PageSize=10
+    method: GET
+    mode: none
+    params:query: {
+      ExceptUserId: 2
+      PageIndex: 1
+      PageSize: 10
+    }
+  }
+  
+  response: {
+    headers: {
+      content-type: application/json; charset=utf-8
+      date: Sat, 16 May 2026 07:43:42 GMT
+      server: Kestrel
+      transfer-encoding: chunked
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "users": {
+            "pageIndex": 1,
+            "pageSize": 10,
+            "count": 173,
+            "data": [
+              {
+                "id": 1,
+                "userName": "User",
+                "email": "user@gmail.com",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              },
+              {
+                "id": 100,
+                "userName": "brianpayne",
+                "email": "heatherscott@example.net",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              },
+              {
+                "id": 101,
+                "userName": "wsolomon",
+                "email": "bgraves@example.org",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              },
+              {
+                "id": 102,
+                "userName": "lblackwell",
+                "email": "helliott@example.net",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              },
+              {
+                "id": 103,
+                "userName": "angela03",
+                "email": "juansmith@example.com",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              },
+              {
+                "id": 104,
+                "userName": "shane60",
+                "email": "owensmichael@example.com",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              },
+              {
+                "id": 105,
+                "userName": "robertduke",
+                "email": "blairrobert@example.com",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              },
+              {
+                "id": 106,
+                "userName": "nicholas09",
+                "email": "samanthabradley@example.com",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              },
+              {
+                "id": 107,
+                "userName": "martinvalerie",
+                "email": "calhounjames@example.com",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              },
+              {
+                "id": 108,
+                "userName": "anitamosley",
+                "email": "katherine07@example.org",
+                "isBan": false,
+                "roles": [
+                  "User"
+                ]
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

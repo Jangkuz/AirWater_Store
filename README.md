@@ -28,6 +28,8 @@ Goals:
 
 ### TODOs:
 - Add admin seed account
+- Move AirWaterStore api test to bruno
+- Create seed and reset endpoint
 
 ## Port
 
