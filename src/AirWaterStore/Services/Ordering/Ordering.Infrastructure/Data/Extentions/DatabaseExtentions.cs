@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -43,7 +43,7 @@ public static class DatabaseExtentions
         //await SeedAsync(context);
     }
 
-    private static async Task SeedAsync(ApplicationDbContext context)
+    public static async Task SeedAsync(ApplicationDbContext context)
     {
         await SeedCustomerAsync(context);
         //await SeedGameAsync(context);

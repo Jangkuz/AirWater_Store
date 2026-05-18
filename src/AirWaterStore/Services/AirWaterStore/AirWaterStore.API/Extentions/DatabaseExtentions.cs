@@ -1,4 +1,4 @@
-﻿using AirWaterStore.API.Users.CreateUser;
+using AirWaterStore.API.Users.CreateUser;
 using BuildingBlocks.Data;
 using BuildingBlocks.Messaging.Events;
 using MassTransit;
@@ -29,7 +29,7 @@ public static class DatabaseExtentions
             );
     }
 
-    private static async Task SeedRole(RoleManager<Role> roleManager)
+    public static async Task SeedRole(RoleManager<Role> roleManager)
     {
         string[] roleNames = { AppConst.Admin,
         AppConst.Staff,
@@ -41,7 +41,7 @@ public static class DatabaseExtentions
         }
     }
 
-    private static async Task SeedUser(
+    public static async Task SeedUser(
         UserManager<User> userManager,
         ApplicationDbContext context,
         IPublishEndpoint publishEndpoint

@@ -5,7 +5,7 @@ from pydantic import Field
 class Settings(BaseSettings):
     # App Settings
     APP_NAME: str = Field("Chat.API")
-    DEBUG: bool = Field(default=False)
+    DEBUG: bool = Field(default=True)
 
     # MongoDB Settings
     # If MONGODB_URL isn't in .env, it defaults to the string below

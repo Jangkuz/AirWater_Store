@@ -20,7 +20,7 @@ body:json {
 
 assert {
   res.status: eq 201
-  res.is: isNumber
+  res.id: isNumber
 }
 
 script:post-response {
