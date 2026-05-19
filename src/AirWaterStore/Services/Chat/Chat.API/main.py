@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from app.core.database import mongodb_startup
+from app.core.middleware import RequestLoggingMiddleware
 from app.messaging.rabbitmq import rabbitmq_startup, rabbitmq_shutdown
 from app.routes import routes
 import asyncio
@@ -22,7 +23,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(RequestLoggingMiddleware)
 app.include_router(routes.router)
+
 
 # @app.get("/chatrooms/{user_id}", response_model=list[shemas.ChatRoomOut])
 # def list_chatrooms(user_id: int, db: Session = Depends(get_db)):

@@ -80,7 +80,7 @@ namespace AirWaterStore.Web.Pages.Chat
                 SentAt: DateTime.Now
             );
 
-            await _chatRoomService.PostMessage(message);
+            await _chatRoomService.PostMessage(result.ChatRoom.ChatRoomId, message);
 
             return RedirectToPage();
         }

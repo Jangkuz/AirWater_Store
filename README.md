@@ -4,10 +4,10 @@ This is a **personal project/proof of concetp** to learn microservices and use n
 
 Goals:
 
-- Develop a ecommerse web with multiple microservices backends
-- Use multiple Db both SQL and NoSQL
-- Microservices communicate via RabbitMQ messages
-- Add monitoring and scalling using grafana/otel-lgtm stack
+- [x] Develop a ecommerse web with multiple microservices backends
+- [x] Use multiple Db both SQL and NoSQL
+- [x] Microservices communicate via RabbitMQ messages
+- [ ] Add monitoring and scalling using grafana/otel-lgtm stack
 
 ## _Note_
 
@@ -28,8 +28,16 @@ Goals:
 
 ### TODOs:
 - Add admin seed account
-- Move AirWaterStore api test to bruno
-- Create seed and reset endpoint
+- From web ui, list develop goals:
+  - Cart -> Place Order -(Redirect too fast)-> New Order didn't load
+- Chat function:
+  - Create room : conflict between variable name standart `customer_if` vs `customerId`
+  - Chat.API: Implement message endpoints
+- Order:
+  - Add option to pay by VNPay or by cash.
+- Discount:
+  - Add page for managing discounts
+- 
 
 ## Port
 

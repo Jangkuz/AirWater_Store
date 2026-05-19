@@ -1,0 +1,24 @@
+meta {
+  name: Message Create
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{chat_url}}/chatrooms/{{chatCreatedId}}/messages
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userId": {{userSeedId}},
+    "chatRoomId": "{{chatCreatedId}}",
+    "content": "Test using Bruno"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

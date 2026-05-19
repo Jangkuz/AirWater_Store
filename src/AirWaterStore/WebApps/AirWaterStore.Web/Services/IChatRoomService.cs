@@ -14,6 +14,6 @@ public interface IChatRoomService
     //=======================================
     [Get("/chatroom-service/chatrooms/{chatRoomId}/messages")]
     Task<GetMessagesByChatRoomIdResponse> GetMessagesByChatRoomId(string chatRoomId);
-    [Post("/chatroom-service/messages")]
-    Task<GetMessagesByChatRoomIdResponse> PostMessage(CreateMessageRequest messageDto);
+    [Post("/chatroom-service/chatrooms/{chatRoomId}/messages")]
+    Task<GetMessagesByChatRoomIdResponse> PostMessage(string chatRoomId, CreateMessageRequest messageDto);
 }

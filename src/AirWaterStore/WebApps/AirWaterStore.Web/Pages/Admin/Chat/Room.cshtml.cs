@@ -91,7 +91,7 @@ public class RoomModel : PageModel
             SentAt: DateTime.Now
         );
 
-        await _chatRoomService.PostMessage(message);
+        await _chatRoomService.PostMessage(chatRoomId, message);
 
         return RedirectToPage(new { id = chatRoomId });
     }

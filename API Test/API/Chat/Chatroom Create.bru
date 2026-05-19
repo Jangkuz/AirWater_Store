@@ -12,7 +12,7 @@ post {
 
 body:json {
   {
-    "customer_id": {{userSeedId}}
+    "customerId": {{userSeedId}}
   }
 }
 
@@ -23,7 +23,7 @@ assert {
 script:post-response {
   const body = res.getBody();
   
-  if(body){
+  if(body.chatRoom){
     bru.setVar("chatCreatedId", body.chatRoom.chatRoomId)
   }
 }

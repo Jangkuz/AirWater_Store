@@ -1,31 +1,26 @@
 from typing import List
-
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException
 import starlette.status as http_status
-from app.models.chatroom import ChatRoom
 from app.schema.chatroom import (
     ChatRoomResponse,
     ChatRoomCreateRequest,
     ChatRoomUpdateStaffRequest,
     ChatRoomEnvelope,
+    ChatRoomListEnvelope,
 )
 from app.dependencies import get_chatroom_service
 from app.services.chatroom_service import ChatRoomService
 
-
 router = APIRouter()
 
 
-# @router.get(
-#         "{user_id}"
-# )
 @router.get(
     "/user/{userId}",
     status_code=http_status.HTTP_200_OK,
     response_description=" get user's chat rooms",
     name="chat_room: get_by_user",
-    response_model=List[ChatRoomResponse],
+    response_model=ChatRoomListEnvelope,
 )
 async def get_chatrooms_by_user(
     userId: int, service: ChatRoomService = Depends(get_chatroom_service)
@@ -41,7 +36,7 @@ async def get_chatrooms_by_user(
             )
         )
 
-    return response
+    return ChatRoomListEnvelope(chat_rooms=response)
 
 
 @router.get(
@@ -49,7 +44,7 @@ async def get_chatrooms_by_user(
     status_code=http_status.HTTP_200_OK,
     response_description=" get chat room by id",
     name="chat_room: get_by_id",
-    response_model=ChatRoomResponse,
+    response_model=ChatRoomEnvelope,
 )
 async def get_chatroom_by_id(
     chatRoomId: PydanticObjectId,
@@ -68,7 +63,7 @@ async def get_chatroom_by_id(
         customer_id=chatroom.customer_id,
         staff_id=chatroom.staff_id,
     )
-    return response
+    return ChatRoomEnvelope(chat_room=response)
 
 
 @router.post(
@@ -97,7 +92,7 @@ async def create(
     status_code=http_status.HTTP_200_OK,
     response_description="assign staff to chat room",
     name="chat_room: assign_staff",
-    response_model=ChatRoomResponse,
+    response_model=ChatRoomEnvelope,
 )
 async def assign_staff(
     chat_room_id: PydanticObjectId,
@@ -114,8 +109,9 @@ async def assign_staff(
 
     chatroom = await service.assign_staff_to_chatroom(chat_room_id, request.staff_id)
 
-    return ChatRoomResponse(
+    response = ChatRoomResponse(
         chat_room_id=str(chatroom.id),
         customer_id=chatroom.customer_id,
         staff_id=chatroom.staff_id,
     )
+    return ChatRoomEnvelope(chat_room=response)

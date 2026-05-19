@@ -2,7 +2,7 @@
 
 public partial class Message
 {
-    public int MessageId { get; set; }
+    public string MessageId { get; set; } = "";
 
     public string ChatRoomId { get; set; } = "";
 
@@ -22,4 +22,4 @@ public record CreateMessageRequest(
     DateTime SentAt
     );
 
-public record CreateMessageResponse(string Id);
+public record CreateMessageResponse(Message Message);
