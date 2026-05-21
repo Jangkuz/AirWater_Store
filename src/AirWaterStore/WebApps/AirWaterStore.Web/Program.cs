@@ -42,10 +42,10 @@ namespace AirWaterStore.Web
                     c.BaseAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
                 });
             builder.Services.AddRefitClient<IChatRoomService>()
-            .ConfigureHttpClient(c =>
-            {
-                c.BaseAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
-            });
+                .ConfigureHttpClient(c =>
+                {
+                    c.BaseAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
+                });
 
 
 
@@ -106,7 +106,7 @@ namespace AirWaterStore.Web
             app.UseAuthorization();
 
             app.MapRazorPages();
-            app.MapHub<ChatHub>("/chathub");
+            //app.MapHub<ChatHub>("/chathub");
 
             app.Run();
         }

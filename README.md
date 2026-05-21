@@ -31,8 +31,7 @@ Goals:
 - From web ui, list develop goals:
   - Cart -> Place Order -(Redirect too fast)-> New Order didn't load
 - Chat function:
-  - Create room : conflict between variable name standart `customer_if` vs `customerId`
-  - Chat.API: Implement message endpoints
+  - Staff chat dashboard doesn't show redirect to customer chat.
 - Order:
   - Add option to pay by VNPay or by cash.
 - Discount:

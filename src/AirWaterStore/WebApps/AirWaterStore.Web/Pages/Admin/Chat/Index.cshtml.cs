@@ -18,7 +18,7 @@ public class IndexModel : PageModel
     public string SelectedRoomId { get; set; } = "";
     // public int CurrentUserId => HttpContext.Session.GetInt32(SessionParams.UserId) ?? 0;
 
-    public async Task<IActionResult> OnGetAsync(string selectedRoom)
+    public async Task<IActionResult> OnGetAsync(string selectedRoom = "")
     {
         // Check if user is staff
         if (!this.IsStaff())

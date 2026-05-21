@@ -1,9 +1,11 @@
-﻿@page
+@page
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @using AirWaterStore.Web.Extentions
 @using AirWaterStore.Web.Helper
 @model AirWaterStore.Web.Pages.Chat.IndexModel
 @{
     ViewData["Title"] = "Support Chat";
+    var wsUrl = WebSocketConfig.GetChatRoomWebSocketUrl(Configuration, Model.ChatRoom.ChatRoomId);
 }
 
 <h1>Support Chat</h1>
@@ -80,13 +82,9 @@
 <input type="hidden" id="currentUsername" value="@Model.GetUsername(Model.GetCurrentUserId())" />
 
 @section Scripts {
-    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+    <script src="~/js/chat-room-websocket.js"></script>
     <script>
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/chathub")
-            .build();
-
-        const chatRoomId = parseInt(document.getElementById('chatRoomId').value);
+        const chatRoomId = document.getElementById('chatRoomId').value;
         const currentUserId = parseInt(document.getElementById('currentUserId').value);
         const currentUsername = document.getElementById('currentUsername').value;
         const messageInput = document.getElementById('messageInput');
@@ -97,41 +95,58 @@
         const connectionStatus = document.getElementById('connectionStatus');
         const noMessagesText = document.getElementById('noMessagesText');
 
-        let typingTimer;
+        const wsUrl = '@wsUrl';
 
-        // Receive message
-        connection.on("ReceiveMessage", function (message) {
-            if (noMessagesText) {
-                noMessagesText.style.display = 'none';
-            }
+        // Initialize WebSocket with centralized configuration
+        const chatWebSocket = new ChatRoomWebSocket({
+            url: wsUrl,
+            currentUserId: currentUserId,
+            currentUsername: currentUsername,
+            reconnectionDelayMs: @AirWaterStore.Web.Helper.WebSocketConfig.ReconnectionDelayMs,
+            typingTimeoutMs: @AirWaterStore.Web.Helper.WebSocketConfig.TypingStatusTimeoutMs,
 
-            const messageDiv = document.createElement('div');
-            const isCurrentUser = message.userId === currentUserId;
+            onConnected: function() {
+                connectionStatus.textContent = 'Connected';
+                connectionStatus.className = 'text-success';
+            },
 
-            messageDiv.className = `message-item mb-3 ${isCurrentUser ? 'text-right' : 'text-left'}`;
-            messageDiv.setAttribute('data-message-id', message.messageId);
+            onDisconnected: function() {
+                connectionStatus.textContent = 'Disconnected';
+                connectionStatus.className = 'text-danger';
+            },
 
-            messageDiv.innerHTML = `
-                <div class="d-inline-block p-2 rounded ${isCurrentUser ? 'bg-primary text-white' : 'bg-light'}">
-                    <small class="d-block ${isCurrentUser ? 'text-white-50' : 'text-muted'}">
-                        ${message.username} - ${message.sentAt}
-                    </small>
-                    ${message.content}
-                </div>
-            `;
+            onMessageReceived: function(data) {
+                if (noMessagesText) {
+                    noMessagesText.style.display = 'none';
+                }
 
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        });
+                const messageDiv = document.createElement('div');
+                const isCurrentUser = data.userId === currentUserId;
 
-        // Handle typing indicator
-        connection.on("UserTyping", function (data) {
-            if (data.userId !== currentUserId) {
-                if (data.isTyping) {
-                    typingText.textContent = data.username;
-                    typingIndicator.style.display = 'block';
-                } else {
-                    typingIndicator.style.display = 'none';
+                messageDiv.className = `message-item mb-3 ${isCurrentUser ? 'text-right' : 'text-left'}`;
+                messageDiv.setAttribute('data-message-id', data.messageId);
+
+                messageDiv.innerHTML = `
+                    <div class="d-inline-block p-2 rounded ${isCurrentUser ? 'bg-primary text-white' : 'bg-light'}">
+                        <small class="d-block ${isCurrentUser ? 'text-white-50' : 'text-muted'}">
+                            ${data.username} - ${data.sentAt}
+                        </small>
+                        ${data.content}
+                    </div>
+                `;
+
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            },
+
+            onTypingReceived: function(data) {
+                if (data.userId !== currentUserId) {
+                    if (data.isTyping) {
+                        typingText.textContent = data.username;
+                        typingIndicator.style.display = 'block';
+                    } else {
+                        typingIndicator.style.display = 'none';
+                    }
                 }
             }
         });
@@ -139,12 +154,11 @@
         // Send message
         function sendMessage() {
             const message = messageInput.value.trim();
-            if (message) {
-                connection.invoke("SendMessage", chatRoomId, message).catch(function (err) {
-                    console.error(err);
-                });
+            console.log(message);
+            if (message && chatWebSocket.isConnected()) {
+                chatWebSocket.send(message, 'message');
                 messageInput.value = '';
-                connection.invoke("NotifyTyping", chatRoomId, false);
+                chatWebSocket.sendTypingStatus(false);
             }
         }
 
@@ -154,29 +168,19 @@
             if (e.key === 'Enter') {
                 sendMessage();
             } else {
-                clearTimeout(typingTimer);
-                connection.invoke("NotifyTyping", chatRoomId, true);
+                clearTimeout(chatWebSocket.typingTimer);
+                chatWebSocket.sendTypingStatus(true);
 
-                typingTimer = setTimeout(function () {
-                    connection.invoke("NotifyTyping", chatRoomId, false);
-                }, 1000);
+                chatWebSocket.typingTimer = setTimeout(function () {
+                    chatWebSocket.sendTypingStatus(false);
+                }, chatWebSocket.typingTimeoutMs);
             }
         });
 
         // Start connection
-        connection.start().then(function () {
-            connectionStatus.textContent = 'Connected';
-            connectionStatus.className = 'text-success';
-
-            // Join chat room
-            connection.invoke("JoinChatRoom", chatRoomId).catch(function (err) {
-                console.error(err);
-            });
-        }).catch(function (err) {
-            console.error(err);
-            connectionStatus.textContent = 'Connection failed';
-            connectionStatus.className = 'text-danger';
-        });
+        connectionStatus.textContent = 'Connecting...';
+        connectionStatus.className = 'text-warning';
+        chatWebSocket.connect();
 
         // Auto-scroll to bottom on load
         chatMessages.scrollTop = chatMessages.scrollHeight;

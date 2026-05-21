@@ -59,31 +59,31 @@ namespace AirWaterStore.Web.Pages.Chat
             return Page();
         }
 
-        public async Task<IActionResult> OnPostSendMessageAsync(string messageContent)
-        {
+        //public async Task<IActionResult> OnPostSendMessageAsync(string messageContent)
+        //{
 
-            var userId = this.GetCurrentUserId();
-            if (userId != 0 || string.IsNullOrWhiteSpace(messageContent))
-            {
-                return RedirectToPage();
-            }
+        //    var userId = this.GetCurrentUserId();
+        //    if (userId != 0 || string.IsNullOrWhiteSpace(messageContent))
+        //    {
+        //        return RedirectToPage();
+        //    }
 
-            var createChatRoomReq = new CreateChatRoomRequest(userId);
+        //    var createChatRoomReq = new CreateChatRoomRequest(userId);
 
-            var result = await _chatRoomService.GetOrCreateChatRoom(createChatRoomReq);
+        //    var result = await _chatRoomService.GetOrCreateChatRoom(createChatRoomReq);
 
-            var message = new CreateMessageRequest
-            (
-                ChatRoomId: result.ChatRoom.ChatRoomId,
-                UserId: userId,
-                Content: messageContent.Trim(),
-                SentAt: DateTime.Now
-            );
+        //    var message = new CreateMessageRequest
+        //    (
+        //        ChatRoomId: result.ChatRoom.ChatRoomId,
+        //        UserId: userId,
+        //        Content: messageContent.Trim(),
+        //        SentAt: DateTime.Now
+        //    );
 
-            await _chatRoomService.PostMessage(result.ChatRoom.ChatRoomId, message);
+        //    await _chatRoomService.PostMessage(result.ChatRoom.ChatRoomId, message);
 
-            return RedirectToPage();
-        }
+        //    return RedirectToPage();
+        //}
 
         public string GetUsername(int userId)
         {

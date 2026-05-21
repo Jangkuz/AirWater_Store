@@ -1,0 +1,19 @@
+meta {
+  name: Message Create WS
+  type: ws
+  seq: 7
+}
+
+ws {
+  url: {{chat_ws}}/chatrooms/ws/{{chatCreatedId}}
+  body: ws
+  auth: inherit
+}
+
+body:ws {
+  name: message 1
+  type: json
+  content: '''
+    {}
+  '''
+}

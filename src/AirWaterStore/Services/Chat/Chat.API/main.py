@@ -111,15 +111,4 @@ app.include_router(routes.router)
 #     )
 
 
-# @app.websocket("/ws/{chatroom_id}")
-# async def websocket_endpoint(websocket: WebSocket, chatroom_id: int):
-#     group = f"chatroom-{chatroom_id}"
-#     await websocket_handlers.manager.connect(websocket, group)
-#     try:
-#         while True:
-#             data = await websocket.receive_json()
-#             rabbitmq.publish_broadcast({"chatroomId": chatroom_id, "message": data})
-#             await websocket_handlers.manager.broadcast(group, data)
-#     except Exception:
-#         websocket_handlers.manager.disconnect(websocket, group)
-#         await websocket.close()
+
